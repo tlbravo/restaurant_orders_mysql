@@ -42,3 +42,30 @@ AVG(price) AS average_price
 FROM menu_items
 GROUP BY category;
 
+--View the order_details table. What is the date range of the table?
+SELECT *
+FROM order_details
+-- 01-01-2023 to 03-01-2023
+
+--How many orders were made within this date range? How many items were ordered within this date range?
+SELECT order_date,
+COUNT(order_id) AS num_orders
+FROM order_details
+GROUP BY order_date;
+
+SELECT order_date,
+COUNT(order_details_id) AS num_items
+FROM order_details
+GROUP BY order_date;
+
+--Which orders had the most number of items?
+SELECT order_id
+FROM order_details
+GROUP BY order_id
+ORDER BY order_id DESC;
+
+--How many orders had more than 12 items?
+SELECT order_id
+FROM order_details
+GROUP BY order_id
+ORDER BY order_id DESC;
