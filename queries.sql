@@ -45,27 +45,37 @@ GROUP BY category;
 --View the order_details table. What is the date range of the table?
 SELECT *
 FROM order_details
--- 01-01-2023 to 03-01-2023
+
+SELECT 
+	MIN(order_date),
+	MAX(order_date)
+FROM order_details
+
+-- 01-01-2023  to 03-31-2023
 
 --How many orders were made within this date range? How many items were ordered within this date range?
-SELECT order_date,
-COUNT(order_id) AS num_orders
-FROM order_details
-GROUP BY order_date;
+SELECT
+COUNT(DISTINCT order_id)
+FROM order_details;
+--5370
 
-SELECT order_date,
-COUNT(order_details_id) AS num_items
-FROM order_details
-GROUP BY order_date;
+SELECT
+COUNT(*)
+FROM order_details;
+--12234
 
 --Which orders had the most number of items?
-SELECT order_id
+SELECT order_id, COUNT(item_id) AS num_items
 FROM order_details
 GROUP BY order_id
-ORDER BY order_id DESC;
+ORDER BY num_items DESC;
 
 --How many orders had more than 12 items?
-SELECT order_id
-FROM order_details
-GROUP BY order_id
-ORDER BY order_id DESC;
+SELECT COUNT(*) AS num_orders
+FROM(
+	SELECT order_id, COUNT(item_id) AS num_items
+	FROM order_details
+	GROUP BY order_id
+	HAVING COUNT(item_id) > 12) AS num_orders_over_twelve;
+--20 orders with more than 12 items
+
